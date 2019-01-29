@@ -5,11 +5,20 @@ package Cards;
  *   @Date 29-01-2019
  */
 
-//Interface for a simple card
-public interface Card{
+//Class for a simple card
+public abstract class Card{
+
     boolean faceup = false;
 
-    void flipCard();
-    boolean getFaceUp();
-    void setFaceUp(Boolean setFaceUpBool);
+    public boolean getFaceup() {
+        return faceup;
+    }
+    public void setFaceup(boolean faceup) {
+        this.faceup = faceup;
+    }
+
+    void flipCard(){
+
+    }
+
 }
