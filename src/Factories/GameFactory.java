@@ -1,6 +1,6 @@
 package Factories;
 
-import Rooms.Lobbies.Game;
+import Rooms.Games.Game;
 
 public class GameFactory {
     //TODO GameFactory

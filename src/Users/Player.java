@@ -1,6 +1,7 @@
 package Users;
 
-//TODO Hand skal implementers
+import Decks.Hand;
+
 public class Player {
         private Hand hand;
         private short score;
@@ -16,7 +17,7 @@ public class Player {
             return this.hand;
         }
 
-        public void setHand(Hand){
+        public void setHand(Hand hand){
             this.hand = hand;
         }
 

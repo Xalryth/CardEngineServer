@@ -1,11 +1,11 @@
-package Rooms.Lobbies;
+package Rooms.Games;
 
 import Users.Player;
 import Users.User;
 
 import java.util.Vector;
 
-public class Game {
+public abstract class Game {
 
     private String name;
     private Vector<Player> players;

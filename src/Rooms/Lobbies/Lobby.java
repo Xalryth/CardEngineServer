@@ -1,6 +1,6 @@
-package Rooms.Games;
+package Rooms.Lobbies;
 
-import Rooms.Lobbies.Game;
+import Rooms.Games.Game;
 import Users.User;
 
 import java.util.Map;
