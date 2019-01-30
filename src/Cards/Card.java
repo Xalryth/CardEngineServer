@@ -8,7 +8,7 @@ package Cards;
 //Class for a simple card
 public abstract class Card{
 
-    boolean faceup = false;
+    private boolean faceup = false;
 
     public boolean getFaceup() {
         return faceup;

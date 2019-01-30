@@ -12,21 +12,17 @@ public class Deck<T extends Cards.Card> {
 
     Vector<T> cards;
 
+    //Default constructor
+    public Deck(){ }
+
+    //constructor with a vector of cards
+    public Deck(Vector<T> cards){ this.cards = cards; }
+
     //properties for cards
     public Vector<T> getCards() {
         return cards;
     }
     public void setCards(Vector<T> cards) {
         this.cards = cards;
-    }
-
-    //Default constructor
-    public Deck(){
-
-    }
-
-    //constructor with a vector of cards
-    public Deck(Vector<T> cards){
-
     }
 }
