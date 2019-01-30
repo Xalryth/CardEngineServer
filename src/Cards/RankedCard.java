@@ -6,7 +6,7 @@ package Cards;
  */
 
 //Interface for the rankedcards
-public class RankedCard<T> implements Card{
+public class RankedCard<T> extends Card{
     T rank;
 
     public T getRank() {
@@ -15,23 +15,7 @@ public class RankedCard<T> implements Card{
     public void setRank(T rank) {
         this.rank = rank;
     }
-
     public RankedCard(T rank){
-
-    }
-
-    @Override
-    public void flipCard() {
-
-    }
-
-    @Override
-    public boolean getFaceUp() {
-        return false;
-    }
-
-    @Override
-    public void setFaceUp(Boolean setFaceUpBool) {
-
+        this.rank = rank;
     }
 }

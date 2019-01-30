@@ -1,13 +1,16 @@
 package Managers;
 
 import Users.Player;
-
 import java.util.Vector;
 
+/*
+ *   @Author Christoffer Pietras
+ *   @Date 30-01-2019
+ */
+
 interface  TurnManager {
-    //TODO Peter kig her
     int turnCount = 0;
-    Vector<Player> turnQueue = new Vector<Player>();
+    Vector<Player> turnQueue = new Vector<>();
     boolean isClockwise = true;
 
     int getTurnCount();
