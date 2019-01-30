@@ -7,12 +7,13 @@ package EndPoints;
 
 import Handlers.MessageHandler;
 
+import javax.json.JsonObject;
+
 public interface WebsocketEndPoint<T> {
+
     void onOpen(T session);
     void onClose(T session);
     void onMessage(String message,T session);
-    //JsonObject er en del af glassfish og der vil derfor komme en fejl
-    //så længe at glassfish ikke er instaleret på computeren
-    //void sendMessage(JsonObject jsonObject);
+    void sendMessage(JsonObject jsonObject);
     void addMessageHandler(MessageHandler handler);
 }

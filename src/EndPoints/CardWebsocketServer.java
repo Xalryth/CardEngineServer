@@ -11,12 +11,13 @@ import Handlers.MessageHandler;
 import Logging.LogType;
 import Logging.Loggable;
 
+import javax.json.JsonObject;
 import java.net.URI;
 import java.util.Map;
 
 public class CardWebsocketServer extends ServerEndPoint implements Loggable,WebsocketEndPoint, MessageHandler, DataHandler {
-    public CardWebsocketServer(URI URI) {
-        super(URI);
+    public CardWebsocketServer(URI uri) {
+        super(uri);
     }
 
     @Override
@@ -44,12 +45,10 @@ public class CardWebsocketServer extends ServerEndPoint implements Loggable,Webs
 
     }
 
-    //JsonObject er en del af glassfish og der vil derfor komme en fejl
-    //så længe at glassfish ikke er instaleret på computeren
-    //@Override
-    //public void sendMessage(JsonObject jsonObject) {
+    @Override
+    public void sendMessage(JsonObject jsonObject) {
 
-    //}
+    }
 
     @Override
     public void addMessageHandler(MessageHandler handler) {
