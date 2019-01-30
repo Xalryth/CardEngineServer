@@ -5,6 +5,11 @@ import Users.User;
 
 import java.util.Map;
 
+/*
+ *   @Author Christoffer Pietras
+ *   @Date 30-01-2019
+ */
+
 public class Lobby {
     private int id;
     private Map<User, Boolean> users;
