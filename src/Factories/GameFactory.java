@@ -2,13 +2,13 @@ package Factories;
 
 import Rooms.Games.Game;
 
-public class GameFactory {
-    //TODO GameFactory
-    public GameFactory(){
-    }
+/*
+* @Author Peter C. Straarup 30/01-2019
+* Factory for producing instances of the game class
+*/
 
-    //TODO createGame
-    public Game createGame(String ?, String ?){
-        return ?
-    }
+public class GameFactory implements Factory<Game>{
+    public GameFactory(){ }
+
+    public Game create(String name){ return null; }
 }

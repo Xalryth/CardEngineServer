@@ -5,6 +5,11 @@ import Users.User;
 
 import java.util.Vector;
 
+/*
+ *   @Author Christoffer Pietras
+ *   @Date 30-01-2019
+ */
+
 public abstract class Game {
 
     private String name;
@@ -16,13 +21,9 @@ public abstract class Game {
         this.name = name;
     }
 
-    //TODO StartGame
-    public void startGame(User[] users){
-    }
+    public abstract void startGame(User[] users);
 
-    //TODO EndGame
-    public void endGame(){
-    }
+    public abstract void endGame();
 
     public String getName(){
         return this.name;

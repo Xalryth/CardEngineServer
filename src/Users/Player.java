@@ -2,6 +2,11 @@ package Users;
 
 import Decks.Hand;
 
+/*
+ *   @Author Christoffer Pietras
+ *   @Date 30-01-2019
+ */
+
 public class Player {
         private Hand hand;
         private short score;
