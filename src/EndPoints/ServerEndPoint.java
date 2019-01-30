@@ -15,7 +15,7 @@ public abstract class ServerEndPoint<T> {
     public ServerEndPoint(URI URI){
 
     }
-    public void sstart(){
+    public void start(){
 
     }
 

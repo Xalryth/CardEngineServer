@@ -9,13 +9,13 @@ package EndPoints;
 import Handlers.DataHandler;
 import Handlers.MessageHandler;
 
+import javax.json.JsonObject;
 import java.net.URI;
 import java.util.Map;
 
-public class ClientEndpoint<T> implements WebsocketEndPoint, DataHandler,MessageHandler {
+public class ClientEndpoint<T> implements WebsocketEndPoint, DataHandler, MessageHandler {
     private T session;
-    public ClientEndpoint(URI URI){
-
+    public ClientEndpoint(URI uri){
     }
 
     public T getSession() {
@@ -41,6 +41,7 @@ public class ClientEndpoint<T> implements WebsocketEndPoint, DataHandler,Message
 
     }
 
+    // bullshit -Peter
     //JsonObject er en del af glassfish og der vil derfor komme en fejl
     //så længe at glassfish ikke er instaleret på computeren
     //@java.lang.Override
