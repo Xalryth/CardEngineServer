@@ -12,7 +12,7 @@ public abstract class ServerEndPoint<T> {
     private int count;
     private Set<T> connections;
 
-    public ServerEndPoint(URI URI){
+    public ServerEndPoint(URI uri){
 
     }
     public void start(){
