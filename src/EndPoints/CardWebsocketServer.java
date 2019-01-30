@@ -9,11 +9,6 @@ package EndPoints;
 import Handlers.DataHandler;
 import Handlers.MessageHandler;
 import Logging.LogType;
-/**
- * @author  Philip Hansen
- * @version 0.1
- * @since   30-01-2019
- */
 import Logging.Loggable;
 
 import java.net.URI;
