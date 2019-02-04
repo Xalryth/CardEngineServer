@@ -1,4 +1,7 @@
 package Repositories;
 
-public class UserRepository implements Repository<UserEntity> {
+import DTOs.UserDTO;
+
+public class UserRepository implements Repository<UserDTO> {
+
 }
