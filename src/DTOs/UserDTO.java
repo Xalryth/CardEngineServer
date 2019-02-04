@@ -3,7 +3,7 @@ package DTOs;
 import java.nio.charset.StandardCharsets;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
-import java.util.Date;
+import java.sql.Date;
 import java.util.Random;
 import java.util.regex.Pattern;
 

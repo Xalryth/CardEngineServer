@@ -4,6 +4,10 @@ import DTOs.UserDTO;
 import Repositories.Specifications.Specification;
 import Repositories.Specifications.UserAddSpecification;
 
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.util.Collection;
 
 public class UserRepository implements Repository<UserDTO> {
@@ -15,8 +19,15 @@ public class UserRepository implements Repository<UserDTO> {
 
     @Override
     public void add(UserDTO entity) {
-        UserAddSpecification a = new UserAddSpecification(entity.firstname);
-        a.ToSqlPreparedStatement(con);
+        try {
+            Connection conn = DriverManager.getConnection("jdbc:sqlserver://10.108.146.2;user=Whist;" +
+                    "password=Whist123;databaseName=CardGameEngine_DB");
+            UserAddSpecification obj = new UserAddSpecification(entity);
+            obj.ToSqlPreparedStatement(conn).executeQuery() ;
+            conn.close();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
     }
 
     @Override

@@ -1,5 +1,7 @@
 package Repositories.Specifications;
 
+import DTOs.UserDTO;
+
 import java.sql.Connection;
 import java.sql.Date;
 import java.sql.PreparedStatement;
@@ -11,18 +13,18 @@ public class UserAddSpecification implements SqlStatementSpecification {
     String email;
     String userName;
     String password;
-    String salt;
+    byte[] salt;
     Date birthDay;
 
-    public UserAddSpecification(String firstName, String lastName, String email, String userName, String password, String salt, Date birthDay)
+    public UserAddSpecification(UserDTO entity)
     {
-    this.firstName = firstName;
-    this.lastName = lastName;
-    this.email = email;
-    this.userName = userName;
-    this.password = password;
-    this.salt = salt;
-    this.birthDay = birthDay;};
+    this.firstName = entity.getFirstName();
+    this.lastName = entity.getLastName();
+    this.email = entity.getEmail();
+    this.userName = entity.getUsername();
+    this.password = entity.getPassword();
+    this.salt = entity.getSalt();
+    this.birthDay = entity.getBirthdate();};
 
     @Override
     public PreparedStatement ToSqlPreparedStatement(Connection con) {
@@ -33,7 +35,7 @@ public class UserAddSpecification implements SqlStatementSpecification {
             statement.setString(3, email);
             statement.setString(4, userName);
             statement.setString(5, password);
-            statement.setString(6, salt);
+            statement.setBytes(6, salt);
             statement.setDate(7, birthDay);
         } catch (SQLException up){
             //throw up;
