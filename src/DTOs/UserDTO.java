@@ -25,11 +25,13 @@ public class UserDTO {
     private Date birthdate;
     private Date created;
 
+    //for user signing requests
     public UserDTO(String username, String password){
         this.username = username;
         this.password = password;
     }
 
+    //returned object from database when doing user lookups and password checks
     public UserDTO(int id, String username, String hashedPassword, byte[] salt){
         this.id = id;
         this.username = username;
@@ -37,15 +39,17 @@ public class UserDTO {
         this.salt = salt;
     }
 
-    public UserDTO(String fName, String lName, String email, String username, String password, Date birthdate){
+    //for user requests, signing up etc.
+    public UserDTO(String fName, String lName, String email, String username, String password, Date birthdate) throws NoSuchAlgorithmException{
         this.firstName = fName;
         this.lastName = lName;
         this.email = email;
         this.username = username;
-        this.password = password;
+        setPassword(password);
         this.birthdate = birthdate;
     }
 
+    //full user object without password details
     public UserDTO(int id, String fName, String lName, String email, String username, Date birthdate, Date created){
         this.id = id;
         this.firstName = fName;
