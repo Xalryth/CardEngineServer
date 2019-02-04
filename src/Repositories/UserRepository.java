@@ -2,7 +2,10 @@ package Repositories;
 
 import DTOs.UserDTO;
 import Repositories.Specifications.Specification;
-import Repositories.Specifications.UserAddSpecification;
+import Repositories.Specifications.User.UserAddSpecification;
+import Repositories.Specifications.User.UserAllSpecification;
+import Repositories.Specifications.User.UserRemoveSpecification;
+import Repositories.Specifications.User.UserUpdateSpecification;
 
 import java.sql.Connection;
 import java.sql.DriverManager;
@@ -14,7 +17,24 @@ public class UserRepository implements Repository<UserDTO> {
 
     @Override
     public Collection<UserDTO> getAll() {
-        return null;
+        Collection<UserDTO> colUserDTO = null;
+
+        try {
+            Connection conn = DriverManager.getConnection("jdbc:sqlserver://10.108.146.2;user=Whist;" +
+                    "password=Whist123;databaseName=CardGameEngine_DB");
+            UserAllSpecification userAllSpec = new UserAllSpecification();
+            ResultSet rs = userAllSpec.ToSqlPreparedStatement(conn).executeQuery();
+
+            while (rs.next()){
+                colUserDTO.add(new UserDTO(rs.getInt("id"), rs.getString("firstName"), rs.getString("lastName"), rs.getString("email"),
+                        rs.getString("username"), rs.getDate("birthday"), rs.getDate("created")));
+            }
+
+                conn.close();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return colUserDTO;
     }
 
     @Override
@@ -22,8 +42,8 @@ public class UserRepository implements Repository<UserDTO> {
         try {
             Connection conn = DriverManager.getConnection("jdbc:sqlserver://10.108.146.2;user=Whist;" +
                     "password=Whist123;databaseName=CardGameEngine_DB");
-            UserAddSpecification obj = new UserAddSpecification(entity);
-            obj.ToSqlPreparedStatement(conn).executeQuery() ;
+            UserAddSpecification userAddSpec = new UserAddSpecification(entity);
+            userAddSpec.ToSqlPreparedStatement(conn).executeQuery() ;
             conn.close();
         } catch (SQLException e) {
             e.printStackTrace();
@@ -32,17 +52,32 @@ public class UserRepository implements Repository<UserDTO> {
 
     @Override
     public void add(Collection<UserDTO> entities) {
-
     }
 
     @Override
     public void update(UserDTO entity) {
-
+        try {
+            Connection conn = DriverManager.getConnection("jdbc:sqlserver://10.108.146.2;user=Whist;" +
+                    "password=Whist123;databaseName=CardGameEngine_DB");
+            UserUpdateSpecification userUpdateSpec = new UserUpdateSpecification(entity);
+            userUpdateSpec.ToSqlPreparedStatement(conn).executeQuery() ;
+            conn.close();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
     }
 
     @Override
     public void remove(UserDTO entity) {
-
+        try {
+            Connection conn = DriverManager.getConnection("jdbc:sqlserver://10.108.146.2;user=Whist;" +
+                    "password=Whist123;databaseName=CardGameEngine_DB");
+            UserRemoveSpecification userRemoveSpec = new UserRemoveSpecification(entity);
+            userRemoveSpec.ToSqlPreparedStatement(conn).executeQuery() ;
+            conn.close();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
     }
 
     @Override

@@ -1,20 +1,19 @@
-package Repositories.Specifications;
+package Repositories.Specifications.User;
+
+import DTOs.UserDTO;
+import Repositories.Specifications.SqlStatementSpecification;
 
 import java.sql.Connection;
 import java.sql.Date;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
 
-public class UsersByDateSpecification implements SqlStatementSpecification {
-    Date date;
-
-    public UsersByDateSpecification(Date date){ this.date = date; }
+public class UserAllSpecification implements SqlStatementSpecification {
 
     @Override
     public PreparedStatement ToSqlPreparedStatement(Connection con) {
         try {
-            PreparedStatement statement = con.prepareStatement("SELECT * FROM User WHERE Created = ?");
-            statement.setDate(1, date);
+            PreparedStatement statement = con.prepareStatement("SELECT * FROM [User]");
         } catch (SQLException up){
             //throw up;
             throw new Error(up.getMessage());

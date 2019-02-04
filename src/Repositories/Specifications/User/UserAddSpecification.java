@@ -1,6 +1,7 @@
-package Repositories.Specifications;
+package Repositories.Specifications.User;
 
 import DTOs.UserDTO;
+import Repositories.Specifications.SqlStatementSpecification;
 
 import java.sql.Connection;
 import java.sql.Date;
