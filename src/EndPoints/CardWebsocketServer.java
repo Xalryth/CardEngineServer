@@ -60,12 +60,12 @@ public class CardWebsocketServer extends ServerEndPoint<Session, URI> implements
     }
 
     @Override
-    public Object decodeMessage(String message) {
+    public JsonObject decodeMessage(String message) {
         return null;
     }
 
     @Override
-    public Object encodeMessage(Map message) {
+    public JsonObject encodeMessage(Map message) {
         return null;
     }
 
