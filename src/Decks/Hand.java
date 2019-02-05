@@ -6,7 +6,7 @@ package Decks;
  */
 
 //The class for the hand
-public class Hand {
+public class Hand extends Deck {
 
     int cardLimit;
 

@@ -8,13 +8,13 @@ import java.util.Vector;
  *   @Date 30-01-2019
  */
 
-interface  TurnManager {
+public interface TurnManager {
     int turnCount = 0;
     Vector<Player> turnQueue = new Vector<>();
     boolean isClockwise = true;
 
     int getTurnCount();
-    Player[] getTurnQueue();
+    Vector<Player> getTurnQueue();
     Player getCurrentPlayer();
     Player endTurn();
     void switchTurnOrder();

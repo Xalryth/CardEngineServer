@@ -5,12 +5,15 @@ package Users;
  *   @Date 30-01-2019
  */
 
-public class User {
+import org.glassfish.grizzly.http.server.Session;
+
+public class User extends Session {
     private String name;
 
     public User(String name){
         this.name = name;
     }
+
 
     public String getname(){
         return this.name;
