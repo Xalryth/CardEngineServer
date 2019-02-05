@@ -1,7 +1,7 @@
 /**
- * @author Philip Hansen
+ * @author  Philip Hansen
  * @version 0.1
- * @since 30-01-2019
+ * @since   30-01-2019
  */
 
 package EndPoints;
@@ -15,11 +15,10 @@ import javax.json.JsonObject;
 import javax.websocket.*;
 import javax.websocket.server.ServerEndpoint;
 import java.net.URI;
-import java.util.HashMap;
 import java.util.Map;
 
 @ServerEndpoint("/ws")
-public class CardWebsocketServer extends ServerEndPoint<Session, URI> implements Loggable, WebsocketEndPoint<Session>, MessageHandler, DataHandler {
+public class CardWebsocketServer extends ServerEndPoint<Session, URI> implements Loggable,WebsocketEndPoint<Session>, MessageHandler, DataHandler {
     public CardWebsocketServer(URI uri) {
     }
 
@@ -32,7 +31,6 @@ public class CardWebsocketServer extends ServerEndPoint<Session, URI> implements
             throw new RuntimeException(e);
         }
     }
-
     @Override
     @OnOpen
     public void onOpen(Session session) {
@@ -48,25 +46,7 @@ public class CardWebsocketServer extends ServerEndPoint<Session, URI> implements
     @Override
     @OnMessage
     public void onMessage(String message, Session session) {
-        Map claim = new HashMap();
 
-        //Create user
-        claim.put("action", 1);
-
-        claim.get(1);
-        var temp = claim.get(1);
-        if (temp == "Action"){
-
-        }
-
-        int messageRec = 1;
-
-        switch (messageRec) {
-            case 1:
-                break;
-            default:
-                break;
-        }
     }
 
     @Override
