@@ -4,11 +4,11 @@ import java.util.Date;
 
 /*
  * @Author Peter C. Straarup 4/2-2019
- * Game data object used to score and return data about a specific game.
+ * Game data object used to store scores and general data about the game
  * */
 
 public class GameDTO {
-   /* private long id;
+    private long id;
     private GamemodeDTO gamemode;
     private Date created;
     private ScoreDTO[] scores;
@@ -35,5 +35,5 @@ public class GameDTO {
 
     public ScoreDTO[] getScores(){ return scores; }
 
-    public void setScores(ScoreDTO[] scores){ this.scores = scores; }*/
+    public void setScores(ScoreDTO[] scores){ this.scores = scores; }
 }
