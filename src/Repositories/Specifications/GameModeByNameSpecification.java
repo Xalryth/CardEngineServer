@@ -14,10 +14,10 @@ public class GameModeByNameSpecification implements SqlStatementSpecification {
         try {
             PreparedStatement statement = con.prepareStatement("SELECT * FROM GameMode WHERE Name = ?");
             statement.setString(1, name);
+            return statement;
         } catch (SQLException up){
             //throw up;
             throw new Error(up.getMessage());
         }
-        return null;
     }
 }

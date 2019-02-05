@@ -12,36 +12,40 @@ import Logging.LogType;
 import Logging.Loggable;
 
 import javax.json.JsonObject;
+import javax.websocket.*;
+import javax.websocket.server.ServerEndpoint;
 import java.net.URI;
 import java.util.Map;
 
-public class CardWebsocketServer extends ServerEndPoint implements Loggable,WebsocketEndPoint, MessageHandler, DataHandler {
+@ServerEndpoint("/ws")
+public class CardWebsocketServer extends ServerEndPoint<Session, URI> implements Loggable,WebsocketEndPoint<Session>, MessageHandler, DataHandler {
     public CardWebsocketServer(URI uri) {
-        super(uri);
     }
 
     @Override
-    public void log() {
-
+    public void start(URI param) {
+        try {
+            WebSocketContainer container = ContainerProvider.getWebSocketContainer();
+            container.connectToServer(this, param);
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
+    }
+    @Override
+    @OnOpen
+    public void onOpen(Session session) {
+        connections.add(session);
     }
 
     @Override
-    public void log(LogType logType) {
-
+    @OnClose
+    public void onClose(Session session) {
+        connections.remove(session);
     }
 
     @Override
-    public void onOpen(Object session) {
-
-    }
-
-    @Override
-    public void onClose(Object session) {
-
-    }
-
-    @Override
-    public void onMessage(String message, Object session) {
+    @OnMessage
+    public void onMessage(String message, Session session) {
 
     }
 
@@ -68,5 +72,13 @@ public class CardWebsocketServer extends ServerEndPoint implements Loggable,Webs
     @Override
     public void handleMessage(String message) {
 
+    }
+
+    @Override
+    public void log() {
+    }
+
+    @Override
+    public void log(LogType logType) {
     }
 }

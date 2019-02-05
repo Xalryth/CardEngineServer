@@ -30,7 +30,7 @@ public class UserAddSpecification implements SqlStatementSpecification {
     @Override
     public PreparedStatement ToSqlPreparedStatement(Connection con) {
         try {
-            PreparedStatement statement = con.prepareStatement("INSERT INTO [User] (UserId, FirstName, LastName, Email, Username, Password, Salt, Birthday) VALUES (?, ?, ?, ?, ?, ?, ?)");
+            PreparedStatement statement = con.prepareStatement("INSERT INTO [User] (FirstName, LastName, Email, Username, Password, Salt, Birthday) VALUES (?, ?, ?, ?, ?, ?, ?)");
             statement.setString(1, firstName);
             statement.setString(2, lastName);
             statement.setString(3, email);
@@ -38,10 +38,10 @@ public class UserAddSpecification implements SqlStatementSpecification {
             statement.setString(5, password);
             statement.setBytes(6, salt);
             statement.setDate(7, birthDay);
+            return statement;
         } catch (SQLException up){
             //throw up;
             throw new Error(up.getMessage());
         }
-        return null;
     }
 }

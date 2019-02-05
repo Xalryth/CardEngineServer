@@ -18,10 +18,10 @@ public class UsersByGamesPlayedSpecification implements SqlStatementSpecificatio
                     "INNER JOIN Score S on S.UserId = U.UserId\n" +
                     "GROUP BY U.UserId\n" +
                     "ORDER BY gamesPlayed;");
+            return statement;
         } catch (SQLException up){
             //throw up;
             throw new Error(up.getMessage());
         }
-        return null;
     }
 }

@@ -19,10 +19,10 @@ public class UserRemoveSpecification implements SqlStatementSpecification {
         try {
             PreparedStatement statement = con.prepareStatement("DELETE FROM [User] WHERE UserId = ?");
             statement.setInt(1, userId);
+            return statement;
         } catch (SQLException up){
             //throw up;
             throw new Error(up.getMessage());
         }
-        return null;
     }
 }

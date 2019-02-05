@@ -14,10 +14,10 @@ public class RulesetByNameSpecification implements SqlStatementSpecification {
             PreparedStatement statement = con.prepareStatement("SELECT * FROM RuleSet\n" +
                     "WHERE RuleSet.name = ?;");
             statement.setString(1, name);
+            return statement;
         } catch (SQLException up){
             //throw up;
             throw new Error(up.getMessage());
         }
-        return null;
     }
 }

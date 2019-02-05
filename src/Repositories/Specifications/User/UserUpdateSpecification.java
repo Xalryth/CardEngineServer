@@ -41,10 +41,10 @@ public class UserUpdateSpecification implements SqlStatementSpecification {
             statement.setBytes(6, salt);
             statement.setDate(7, birthDay);
             statement.setInt(8, userId);
+            return statement;
         } catch (SQLException up){
             //throw up;
             throw new Error(up.getMessage());
         }
-        return null;
     }
 }

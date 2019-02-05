@@ -15,10 +15,10 @@ public class RulesetsByGameModeSpecification implements SqlStatementSpecificatio
                     "INNER JOIN RuleSet ON Ruleset.GameModeId = GameMode.GameModeId\n" +
                     "WHERE Gamemode.name = ?;");
             statement.setString(1, name);
+            return statement;
         } catch (SQLException up){
             //throw up;
             throw new Error(up.getMessage());
         }
-        return null;
     }
 }

@@ -15,12 +15,11 @@ public class GamesByNewestSpecification implements SqlStatementSpecification {
         try {
             PreparedStatement statement = con.prepareStatement("SELECT * FROM Game\n" +
                     "WHERE Game.Created >= DATEADD(day, -?, getdate());");
-
             statement.setInt(1, amount);
+            return statement;
         } catch (SQLException up){
             //throw up;
             throw new Error(up.getMessage());
         }
-        return null;
     }
 }

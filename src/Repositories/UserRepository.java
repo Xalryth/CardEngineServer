@@ -43,7 +43,7 @@ public class UserRepository implements Repository<UserDTO> {
             Connection conn = DriverManager.getConnection("jdbc:sqlserver://10.108.146.2;user=Whist;" +
                     "password=Whist123;databaseName=CardGameEngine_DB");
             UserAddSpecification userAddSpec = new UserAddSpecification(entity);
-            userAddSpec.ToSqlPreparedStatement(conn).executeQuery() ;
+            var temp = userAddSpec.ToSqlPreparedStatement(conn).executeQuery();
             conn.close();
         } catch (SQLException e) {
             e.printStackTrace();

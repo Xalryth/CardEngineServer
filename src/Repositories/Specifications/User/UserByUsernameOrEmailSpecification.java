@@ -18,10 +18,10 @@ public class UserByUsernameOrEmailSpecification implements SqlStatementSpecifica
             PreparedStatement statement = con.prepareStatement("SELECT * FROM [User] WHERE Username = ? OR Email = ?; ");
             statement.setString(1, usernameOrEmail);
             statement.setString(2, usernameOrEmail);
+            return statement;
         } catch (SQLException up){
             //throw up;
             throw new Error(up.getMessage());
         }
-        return null;
     }
 }

@@ -1,23 +1,26 @@
 /**
- * @author  Philip Hansen
+ * @author Philip Hansen
  * @version 0.1
- * @since   30-01-2019
+ * @since 30-01-2019
  */
 package EndPoints;
 
+import javax.websocket.ContainerProvider;
+import javax.websocket.WebSocketContainer;
 import java.net.URI;
+import java.util.Collections;
+import java.util.HashSet;
 import java.util.Set;
 
-public abstract class ServerEndPoint<T> {
+public abstract class ServerEndPoint<T, S> {
     private int count;
-    private Set<T> connections;
+    protected Set<T> connections;
 
-    public ServerEndPoint(URI uri){
-
+    public ServerEndPoint() {
+        connections = Collections.synchronizedSet(new HashSet<T>());
     }
-    public void start(){
 
-    }
+    public abstract void start(S param);
 
     public int getCount() {
         return count;

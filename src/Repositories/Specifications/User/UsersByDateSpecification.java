@@ -17,10 +17,10 @@ public class UsersByDateSpecification implements SqlStatementSpecification {
         try {
             PreparedStatement statement = con.prepareStatement("SELECT * FROM User WHERE Created = ?");
             statement.setDate(1, date);
+            return statement;
         } catch (SQLException up){
             //throw up;
             throw new Error(up.getMessage());
         }
-        return null;
     }
 }

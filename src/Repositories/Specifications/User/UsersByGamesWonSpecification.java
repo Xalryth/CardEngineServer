@@ -17,10 +17,10 @@ public class UsersByGamesWonSpecification implements SqlStatementSpecification {
                     "WHERE S.Win = 1\n" +
                     "GROUP BY U.UserId\n" +
                     "ORDER BY gamesWon desc;");
+            return statement;
         } catch (SQLException up){
             //throw up;
             throw new Error(up.getMessage());
         }
-        return null;
     }
 }

@@ -16,10 +16,10 @@ public class AbandonedGameEntryByUsernameSpecification implements SqlStatementSp
                     "WHERE U.Username = ''\n" +
                     "GROUP BY U.UserId;");
             statement.setString(1, username);
+            return statement;
         } catch (SQLException up){
             //throw up;
             throw new Error(up.getMessage());
         }
-        return null;
     }
 }
