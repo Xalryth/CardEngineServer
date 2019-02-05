@@ -18,7 +18,7 @@ import java.net.URI;
 import java.util.Map;
 
 @ServerEndpoint("/ws")
-public class CardWebsocketServer extends ServerEndPoint<Session, URI> implements Loggable,WebsocketEndPoint<Session>, MessageHandler, DataHandler {
+public class CardWebsocketServer extends ServerEndPoint<Session, URI> implements Loggable,WebsocketEndPoint<Session>, MessageHandler, DataHandler<JsonObject> {
     public CardWebsocketServer(URI uri) {
     }
 
@@ -60,12 +60,12 @@ public class CardWebsocketServer extends ServerEndPoint<Session, URI> implements
     }
 
     @Override
-    public Object decodeMessage(String message) {
+    public JsonObject decodeMessage(String message) {
         return null;
     }
 
     @Override
-    public Object encodeMessage(Map message) {
+    public JsonObject encodeMessage(Map<String, Object> message) {
         return null;
     }
 
