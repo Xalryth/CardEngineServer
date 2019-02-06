@@ -11,9 +11,9 @@ public class RulesetDTO {
     private String name;
     private GamemodeDTO gamemode;
 
-    public RulesetDTO(String rulesetName, String gamemodeName){
-        this.name = rulesetName;
-        this.gamemode = new GamemodeDTO(gamemodeName);
+    public RulesetDTO(String name, String gamemmodeName){
+        this.name = name;
+        this.gamemode = new GamemodeDTO(gamemmodeName);
     }
 
     public RulesetDTO(int id, String name, GamemodeDTO gamemode){

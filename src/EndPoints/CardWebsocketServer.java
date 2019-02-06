@@ -11,20 +11,18 @@ import Handlers.DataHandler;
 import Handlers.MessageHandler;
 import Logging.LogType;
 import Logging.Loggable;
-import Repositories.UserRepository;
 
 import javax.json.*;
 import javax.websocket.*;
 import javax.websocket.server.ServerEndpoint;
 import java.io.StringReader;
 import java.net.URI;
-import java.security.NoSuchAlgorithmException;
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
-import java.util.*;
+import java.util.Collection;
+import java.util.Map;
+import java.util.Set;
 
 @ServerEndpoint("/ws")
-public class CardWebsocketServer extends ServerEndPoint<Session, URI> implements Loggable, WebsocketEndPoint<Session>, MessageHandler, DataHandler {
+public class CardWebsocketServer extends ServerEndPoint<Session, URI> implements Loggable,WebsocketEndPoint<Session>, MessageHandler, DataHandler<JsonObject> {
     public CardWebsocketServer(URI uri) {
     }
 
@@ -81,9 +79,20 @@ public class CardWebsocketServer extends ServerEndPoint<Session, URI> implements
         return jsonObject;
     }
 
+    /*
+    * @Author Peter C. Straarup 6/2-2019
+    * Encodes claims into a json object and returns the object
+    * */
+
     @Override
-    public JsonObject encodeMessage(Map message) {
-        return null;
+    public JsonObject encodeMessage(Map<String, Object> message) {
+        JsonObjectBuilder obj = Json.createObjectBuilder();
+
+        for(String entry : message.keySet()){
+            obj.add(entry, message.get(entry).toString());
+        }
+
+        return obj.build();
     }
 
     @Override
