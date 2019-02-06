@@ -1,6 +1,6 @@
 package EndPoints;
 
-public enum Type {
+public enum PacketType {
     CreateUser(0),
     UpdateUser(1),
     DeleteUser( 2),
@@ -16,12 +16,10 @@ public enum Type {
     Ready (104),
     UnReady (105),
 
-
     //Game 200
     JoinGame (200),
     LeaveGame (201),
     KickPlayer (202),
-
 
     //Round 300
     DealCard (300),
@@ -32,12 +30,10 @@ public enum Type {
     EndRound (305),
     EndTurn (306),
     NextTurn (307);
-    //Specific 1000
-
 
     private int id;
 
-    Type(int id){
+    PacketType(int id){
         this.id = id;
     }
 

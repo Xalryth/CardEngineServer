@@ -1,7 +1,7 @@
 /**
- * @author  Philip Hansen
+ * @author Philip Hansen
  * @version 0.1
- * @since   30-01-2019
+ * @since 30-01-2019
  */
 
 package EndPoints;
@@ -11,14 +11,17 @@ import Handlers.MessageHandler;
 import Logging.LogType;
 import Logging.Loggable;
 
+import javax.json.Json;
 import javax.json.JsonObject;
+import javax.json.JsonReader;
 import javax.websocket.*;
 import javax.websocket.server.ServerEndpoint;
+import java.io.StringReader;
 import java.net.URI;
 import java.util.Map;
 
 @ServerEndpoint("/ws")
-public class CardWebsocketServer extends ServerEndPoint<Session, URI> implements Loggable,WebsocketEndPoint<Session>, MessageHandler, DataHandler {
+public class CardWebsocketServer extends ServerEndPoint<Session, URI> implements Loggable, WebsocketEndPoint<Session>, MessageHandler, DataHandler {
     public CardWebsocketServer(URI uri) {
     }
 
@@ -31,6 +34,7 @@ public class CardWebsocketServer extends ServerEndPoint<Session, URI> implements
             throw new RuntimeException(e);
         }
     }
+
     @Override
     @OnOpen
     public void onOpen(Session session) {
@@ -46,6 +50,20 @@ public class CardWebsocketServer extends ServerEndPoint<Session, URI> implements
     @Override
     @OnMessage
     public void onMessage(String message, Session session) {
+        //Recevice json string
+        JsonObject jsonobj = decodeMessage(message);
+        int type = jsonobj.getJsonObject("array").getInt("type");
+        String content = jsonobj.getJsonObject("array").getString("content");
+
+        switch (type) {
+            case 1:
+
+                break;
+            default:
+
+                break;
+        }
+
 
     }
 
@@ -61,7 +79,10 @@ public class CardWebsocketServer extends ServerEndPoint<Session, URI> implements
 
     @Override
     public JsonObject decodeMessage(String message) {
-        return null;
+        JsonReader jsonReader = Json.createReader(new StringReader(message));
+        JsonObject jsonObject = jsonReader.readObject();
+        jsonReader.close();
+        return jsonObject;
     }
 
     @Override
