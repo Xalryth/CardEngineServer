@@ -25,7 +25,7 @@ import java.text.SimpleDateFormat;
 import java.util.*;
 
 @ServerEndpoint("/ws")
-public class CardWebsocketServer extends ServerEndPoint<Session, URI> implements Loggable,WebsocketEndPoint<Session>, MessageHandler, DataHandler<JsonObject> {
+public class CardWebsocketServer extends ServerEndPoint<Session, URI> implements Loggable, WebsocketEndPoint<Session>, MessageHandler, DataHandler<JsonObject> {
     public CardWebsocketServer(URI uri) {
     }
 
@@ -83,15 +83,15 @@ public class CardWebsocketServer extends ServerEndPoint<Session, URI> implements
     }
 
     /*
-    * @Author Peter C. Straarup 6/2-2019
-    * Encodes claims into a json object and returns the object
-    * */
+     * @Author Peter C. Straarup 6/2-2019
+     * Encodes claims into a json object and returns the object
+     * */
 
     @Override
     public JsonObject encodeMessage(Map<String, Object> message) {
         JsonObjectBuilder obj = Json.createObjectBuilder();
 
-        for(String entry : message.keySet()){
+        for (String entry : message.keySet()) {
             obj.add(entry, message.get(entry).toString());
         }
 
@@ -107,55 +107,57 @@ public class CardWebsocketServer extends ServerEndPoint<Session, URI> implements
 
         switch (type) {
             case CreateUser:
+                try {
+                    UserRepository userRepository = new UserRepository();
+                    JsonArray value = content.getJsonArray("users");
+                    List<UserDTO> users = new Vector<>();
+
+                    value.forEach(item -> {
+                        JsonObject obj = (JsonObject) item;
+                        String fName = obj.getString("fName");
+                        String lName = obj.getString("lName");
+                        String email = obj.getString("email");
+                        String username = obj.getString("username");
+                        String password = obj.getString("password");
+                        String sBirthdate = obj.getString("birthday");
+                        Date birthdate = stringToDate(sBirthdate);
+
+                        users.add(new UserDTO(fName, lName, email, username, password, (java.sql.Date) birthdate));
+                    });
+                    if (userRepository.add(users)) {
+
+                        claim.put("type", type);
+
+                        for (UserDTO user : users) {
+                            JsonObjectBuilder b = Json.createObjectBuilder();
+                            b.add("fName", user.getFirstName());
+                            b.add("lName", user.getLastName());
+                            b.add("email", user.getEmail());
+                            b.add("username", user.getUsername());
+                            b.add("password", user.getPassword());
+                            b.add("birthday", user.getBirthdate().toString());
+                        }
+
+                        claim.put("content", users);
+                    } else {
+                        claim.put("type", PacketType.Error);
+                        claim.put("error", ErrorType.userExists);
+                        claim.put("errorMessage", "Bruger eksistere allerede");
+                    }
+                } catch (NoSuchAlgorithmException e) {
+                    e.printStackTrace();
+                }
+                break;
+            case UpdateUser:
                 UserRepository userRepository = new UserRepository();
                 JsonArray value = content.getJsonArray("users");
                 List<UserDTO> users = new Vector<>();
-
-                value.forEach(item -> {
-                    JsonObject obj = (JsonObject) item;
-                    String fName = obj.getString("fName");
-                    String lName = obj.getString("lName");
-                    String email = obj.getString("email");
-                    String username = obj.getString("username");
-                    String password = obj.getString("password");
-                    String sBirthdate = obj.getString("birthday");
-                    Date birthdate = stringToDate(sBirthdate);
-
-                    try {
-                        users.add(new UserDTO(fName, lName, email, username, password, (java.sql.Date) birthdate));
-                    } catch (NoSuchAlgorithmException e) {
-                        e.printStackTrace();
-                    }
-                });
-                if (userRepository.add(users)) {
-
-                    claim.put("type", type);
-
-                    for (UserDTO user : users) {
-                        JsonObjectBuilder b = Json.createObjectBuilder();
-                        b.add("fName", user.getFirstName());
-                        b.add("lName", user.getLastName());
-                        b.add("email", user.getEmail());
-                        b.add("username", user.getUsername());
-                        b.add("password", user.getPassword());
-                        b.add("birthday", user.getBirthdate().toString());
-                    }
-
-                    claim.put("content", users);
-                } else {
-                    claim.put("type", PacketType.Error);
-                    claim.put("error", ErrorType.userExists);
-                    claim.put("errorMessage", "Bruger eksistere allerede");
-                }
-
-                break;
-            case UpdateUser:
 
                 break;
             default:
                 break;
         }
-        return null;
+        return encodeMessage(claim);
     }
 
     @Override
