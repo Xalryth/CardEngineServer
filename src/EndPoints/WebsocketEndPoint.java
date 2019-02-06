@@ -15,5 +15,4 @@ public interface WebsocketEndPoint<T> {
     void onClose(T session);
     void onMessage(String message,T session);
     void sendMessage(JsonObject jsonObject);
-    void addMessageHandler(MessageHandler handler);
 }

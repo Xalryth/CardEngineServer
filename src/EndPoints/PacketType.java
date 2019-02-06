@@ -9,10 +9,10 @@ public enum PacketType {
     UserLogin(50),
 
     //Lobby 100
-    CreateRoom (100),
-    RemoveRoom (101),
-    LeaveRoom (102),
-    JoinRoom (103),
+    CreateLobby (100),
+    RemoveLobby (101),
+    LeaveLobby (102),
+    JoinLobby (103),
     Ready (104),
     UnReady (105),
 
@@ -29,7 +29,10 @@ public enum PacketType {
     EndGame (304),
     EndRound (305),
     EndTurn (306),
-    NextTurn (307);
+    NextTurn (307),
+
+    //Error 400
+    Error ( 400);
 
     private int id;
 

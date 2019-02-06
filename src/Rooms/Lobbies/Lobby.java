@@ -11,13 +11,18 @@ import java.util.Map;
  */
 
 public class Lobby {
+    //Count total of room
+    private static int countId;
+
+    private String name;
     private int id;
     private Map<User, Boolean> users;
     private Game game;
 
-    public Lobby(int id, User user, Game game){
-        this.id = id;
+    public Lobby(User user, String name, Game game){
+        this.id = ++countId;
         this.users.put(user, false);
+        this.name = name;
         this.game = game;
     }
 
@@ -40,6 +45,10 @@ public class Lobby {
     public void setGame(Game game){
         this.game = game;
     }
+
+    public String getName() { return this.name;}
+
+    public void setName(String name){ this.name = name; }
 
     public int getId(){
         return this.id;
