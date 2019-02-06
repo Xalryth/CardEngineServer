@@ -5,6 +5,8 @@
  */
 package Handlers;
 
+import javax.json.JsonObject;
+
 public interface MessageHandler {
-    void handleMessage(String message);
+    JsonObject handleMessage(String message);
 }

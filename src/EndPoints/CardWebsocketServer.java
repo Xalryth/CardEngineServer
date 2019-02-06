@@ -6,19 +6,22 @@
 
 package EndPoints;
 
+import DTOs.UserDTO;
 import Handlers.DataHandler;
 import Handlers.MessageHandler;
 import Logging.LogType;
 import Logging.Loggable;
+import Repositories.UserRepository;
 
-import javax.json.Json;
-import javax.json.JsonObject;
-import javax.json.JsonReader;
+import javax.json.*;
 import javax.websocket.*;
 import javax.websocket.server.ServerEndpoint;
 import java.io.StringReader;
 import java.net.URI;
-import java.util.Map;
+import java.security.NoSuchAlgorithmException;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.*;
 
 @ServerEndpoint("/ws")
 public class CardWebsocketServer extends ServerEndPoint<Session, URI> implements Loggable, WebsocketEndPoint<Session>, MessageHandler, DataHandler {
@@ -50,31 +53,24 @@ public class CardWebsocketServer extends ServerEndPoint<Session, URI> implements
     @Override
     @OnMessage
     public void onMessage(String message, Session session) {
-        //Recevice json string
-        JsonObject jsonobj = decodeMessage(message);
-        int type = jsonobj.getJsonObject("array").getInt("type");
-        String content = jsonobj.getJsonObject("array").getString("content");
+        JsonObject jsonObj = handleMessage(message);
+        session.getAsyncRemote().sendObject(jsonObj);
+    }
 
-        switch (type) {
-            case 1:
-
-                break;
-            default:
-
-                break;
+    private Date stringToDate(String sDate) {
+        try {
+            SimpleDateFormat sdf1 = new SimpleDateFormat("dd-mm-yyyy");
+            java.util.Date date = sdf1.parse(sDate);
+            java.sql.Date sqlStartDate = new java.sql.Date(date.getTime());
+            return sqlStartDate;
+        } catch (ParseException e) {
+            e.printStackTrace();
         }
-
-
+        return null;
     }
 
     @Override
     public void sendMessage(JsonObject jsonObject) {
-
-    }
-
-    @Override
-    public void addMessageHandler(MessageHandler handler) {
-
     }
 
     @Override
@@ -91,8 +87,63 @@ public class CardWebsocketServer extends ServerEndPoint<Session, URI> implements
     }
 
     @Override
-    public void handleMessage(String message) {
+    public JsonObject handleMessage(String message) {
+        JsonObject jsonobj = decodeMessage(message);
+        PacketType type = PacketType.values()[jsonobj.getJsonObject("array").getInt("type")];
+        JsonObject content = jsonobj.getJsonObject("array").getJsonObject("content");
+        Map claim = new HashMap();
 
+        switch (type) {
+            case CreateUser:
+                UserRepository userRepository = new UserRepository();
+                JsonArray value = content.getJsonArray("users");
+                List<UserDTO> users = new Vector<>();
+
+                value.forEach(item -> {
+                    JsonObject obj = (JsonObject) item;
+                    String fName = obj.getString("fName");
+                    String lName = obj.getString("lName");
+                    String email = obj.getString("email");
+                    String username = obj.getString("username");
+                    String password = obj.getString("password");
+                    String sBirthdate = obj.getString("birthday");
+                    Date birthdate = stringToDate(sBirthdate);
+
+                    try {
+                        users.add(new UserDTO(fName, lName, email, username, password, (java.sql.Date) birthdate));
+                    } catch (NoSuchAlgorithmException e) {
+                        e.printStackTrace();
+                    }
+                });
+                if (userRepository.add(users)) {
+
+                    claim.put("type", type);
+
+                    for (UserDTO user : users) {
+                        JsonObjectBuilder b = Json.createObjectBuilder();
+                        b.add("fName", user.getFirstName());
+                        b.add("lName", user.getLastName());
+                        b.add("email", user.getEmail());
+                        b.add("username", user.getUsername());
+                        b.add("password", user.getPassword());
+                        b.add("birthday", user.getBirthdate().toString());
+                    }
+
+                    claim.put("content", users);
+                } else {
+                    claim.put("type", PacketType.Error);
+                    claim.put("error", ErrorType.userExists);
+                    claim.put("errorMessage", "Bruger eksistere allerede");
+                }
+
+                break;
+            case UpdateUser:
+
+                break;
+            default:
+                break;
+        }
+        return null;
     }
 
     @Override
