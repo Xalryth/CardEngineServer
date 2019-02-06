@@ -40,7 +40,7 @@ public class UserDTO {
     }
 
     //for user requests, signing up etc.
-    public UserDTO(String fName, String lName, String email, String username, String password, Date birthdate) throws NoSuchAlgorithmException{
+    public UserDTO(String fName, String lName, String email, String username, String password, Date birthdate) {
         this.firstName = fName;
         this.lastName = lName;
         this.email = email;
@@ -100,7 +100,7 @@ public class UserDTO {
         return password;
     }
 
-    public void setPassword(String password) throws NoSuchAlgorithmException {
+    public void setPassword(String password) {
         this.password = password;
     }
 
@@ -124,7 +124,7 @@ public class UserDTO {
         return created;
     }
 
-    public void hashPassword(){
+    public void hashPassword() throws NoSuchAlgorithmException{
         try {
             byte[] newSalt = new byte[128];
             new Random().nextBytes(newSalt);
