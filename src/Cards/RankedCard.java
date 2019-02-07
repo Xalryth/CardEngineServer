@@ -6,7 +6,7 @@ package Cards;
  */
 
 //Interface for the rankedcards
-public class RankedCard<T> extends Card{
+public class RankedCard<T> extends Card<Object>{
     T rank;
 
     public T getRank() {
@@ -15,7 +15,8 @@ public class RankedCard<T> extends Card{
     public void setRank(T rank) {
         this.rank = rank;
     }
-    public RankedCard(T rank){
+    public RankedCard(T rank,Object identifyre){
+        super(identifyre);
         this.rank = rank;
     }
 }

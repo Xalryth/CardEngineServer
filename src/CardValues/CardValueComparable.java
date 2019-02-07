@@ -10,8 +10,8 @@ import Cards.Card;
 public interface CardValueComparable<K extends Card, V> extends CardValuable<K, V>{
     K getLesserCard(K card1, K card2);
     K getGreaterCard(K card1, K card2);
-    K getLowestCard(K card);
-    K getHighestCard(K card);
+    K getLowestCard();
+    K getHighestCard();
     K[] getCardsBelow(K card);
     K[] getCardsBelow(V value);
     K[] getCardsAbove(K card);
