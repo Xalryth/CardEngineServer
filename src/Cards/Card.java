@@ -6,19 +6,22 @@ package Cards;
  */
 
 //Class for a simple card
-public abstract class Card{
+public abstract class Card<T>{
 
-    private boolean faceup = false;
+    T identifyer;
 
-    public boolean getFaceup() {
-        return faceup;
-    }
-    public void setFaceup(boolean faceup) {
-        this.faceup = faceup;
-    }
-
-    void flipCard(){
+    public Card(){
 
     }
+    public Card(T identifyer){
+        this.identifyer = identifyer;
+    }
 
+    public T getIdentifyer() {
+        return identifyer;
+    }
+
+    public void setIdentifyer(T identifyer) {
+        this.identifyer = identifyer;
+    }
 }

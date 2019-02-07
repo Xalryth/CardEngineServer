@@ -7,5 +7,5 @@ package Cards;
 
 //Enum to define the different card types
 public enum StandardPlayingCardRank {
-    Spades, Hearts, Clubs, Diamonds, Empty
+    Spades, Hearts, Clubs, Diamonds, Empty;
 }

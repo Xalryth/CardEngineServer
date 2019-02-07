@@ -9,9 +9,6 @@ import java.util.Vector;
  */
 
 public interface TurnManager {
-    int turnCount = 0;
-    Vector<Player> turnQueue = new Vector<>();
-    boolean isClockwise = true;
 
     int getTurnCount();
     Vector<Player> getTurnQueue();
