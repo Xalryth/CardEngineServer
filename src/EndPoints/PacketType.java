@@ -1,10 +1,14 @@
 package EndPoints;
-
+/**
+ * @author Christoffer Pietras
+ * @version 1
+ * @since 07-02-2019
+ */
 public enum PacketType {
     CreateUser(0),
     UpdateUser(1),
-    DeleteUser( 2),
-    UserResetPassword(3),
+    RemoveUser( 2),
+    ResetPasswordUser(3),
 
     UserLogin(50),
 

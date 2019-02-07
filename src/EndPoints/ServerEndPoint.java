@@ -5,9 +5,6 @@
  */
 package EndPoints;
 
-import javax.websocket.ContainerProvider;
-import javax.websocket.WebSocketContainer;
-import java.net.URI;
 import java.util.Collections;
 import java.util.HashSet;
 import java.util.Set;

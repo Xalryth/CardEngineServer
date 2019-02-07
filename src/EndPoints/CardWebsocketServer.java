@@ -6,23 +6,17 @@
 
 package EndPoints;
 
-import DTOs.UserDTO;
 import Handlers.DataHandler;
 import Handlers.MessageHandler;
 import Handlers.Service.StandardUserService;
 import Logging.LogType;
 import Logging.Loggable;
-import Repositories.UserRepository;
 
 import javax.json.*;
 import javax.websocket.*;
 import javax.websocket.server.ServerEndpoint;
 import java.io.StringReader;
 import java.net.URI;
-import java.security.NoSuchAlgorithmException;
-import java.sql.Date;
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
 import java.util.*;
 
 @ServerEndpoint("/ws")
@@ -63,6 +57,11 @@ public class CardWebsocketServer extends ServerEndPoint<Session, URI> implements
     public void sendMessage(JsonObject jsonObject) {
     }
 
+    /**
+     * @author Christoffer Pietras
+     * @version 1
+     * @since 07-02-2019
+     */
     @Override
     public JsonObject decodeMessage(String message) {
         JsonReader jsonReader = Json.createReader(new StringReader(message));
@@ -87,6 +86,11 @@ public class CardWebsocketServer extends ServerEndPoint<Session, URI> implements
         return obj.build();
     }
 
+    /**
+     * @author Christoffer Pietras
+     * @version 1
+     * @since 07-02-2019
+     */
     @Override
     public JsonObject handleMessage(String message) {
         JsonObject jsonObj = decodeMessage(message);
@@ -100,7 +104,7 @@ public class CardWebsocketServer extends ServerEndPoint<Session, URI> implements
             case CreateUser:
                 try {
                     JsonArray jsonArray = content.getJsonArray("users");
-                    claim = uService.createUser(jsonArray, PacketType.CreateUser);
+                    claim = uService.createUsers(jsonArray, PacketType.CreateUser);
                 } catch (Exception e) {
                     e.printStackTrace();
                 }
@@ -108,21 +112,30 @@ public class CardWebsocketServer extends ServerEndPoint<Session, URI> implements
             case UpdateUser:
                 try {
                     JsonArray jsonArray = content.getJsonArray("users");
-                    claim = uService.updateUser(jsonArray, PacketType.UpdateUser);
+                    claim = uService.updateUsers(jsonArray, PacketType.UpdateUser);
                 } catch (Exception e) {
                     e.printStackTrace();
                 }
                 break;
-            case DeleteUser:
+            case RemoveUser:
                 try {
-
+                    JsonArray jsonArray = content.getJsonArray("users");
+                    claim = uService.RemoveUsers(jsonArray, PacketType.RemoveUser);
                 } catch (Exception e) {
                     e.printStackTrace();
                 }
                 break;
-            case UserResetPassword:
+            case ResetPasswordUser:
                 try {
-
+                    JsonArray jsonArray = content.getJsonArray("users");
+                    claim = uService.ResetPasswordUsers(jsonArray, PacketType.ResetPasswordUser);
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+            case UserLogin:
+                try {
+                    JsonArray jsonArray = content.getJsonArray("users");
+                    claim = uService.login(jsonArray, PacketType.UserLogin);
                 } catch (Exception e) {
                     e.printStackTrace();
                 }

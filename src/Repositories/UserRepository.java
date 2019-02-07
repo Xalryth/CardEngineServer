@@ -2,10 +2,7 @@ package Repositories;
 
 import DTOs.UserDTO;
 import Repositories.Specifications.Specification;
-import Repositories.Specifications.User.UserAddSpecification;
-import Repositories.Specifications.User.UserAllSpecification;
-import Repositories.Specifications.User.UserRemoveSpecification;
-import Repositories.Specifications.User.UserUpdateSpecification;
+import Repositories.Specifications.User.*;
 
 import java.sql.Connection;
 import java.sql.DriverManager;
@@ -26,16 +23,16 @@ public class UserRepository implements Repository<UserDTO> {
             UserAllSpecification userAllSpec = new UserAllSpecification();
             ResultSet rs = userAllSpec.ToSqlPreparedStatement(conn).executeQuery();
 
-            while (rs.next()){
+            while (rs.next()) {
                 colUserDTO.add(new UserDTO(rs.getInt("id"), rs.getString("firstName"), rs.getString("lastName"), rs.getString("email"),
                         rs.getString("username"), rs.getDate("birthday"), rs.getDate("created")));
             }
 
-                conn.close();
+            conn.close();
         } catch (SQLException e) {
             e.printStackTrace();
         } finally {
-            if (conn != null){
+            if (conn != null) {
                 try {
                     conn.close();
                 } catch (SQLException e) {
@@ -59,7 +56,7 @@ public class UserRepository implements Repository<UserDTO> {
         } catch (SQLException e) {
             e.printStackTrace();
         } finally {
-            if (conn != null){
+            if (conn != null) {
                 try {
                     conn.close();
                 } catch (SQLException e) {
@@ -85,7 +82,7 @@ public class UserRepository implements Repository<UserDTO> {
         } catch (SQLException e) {
             e.printStackTrace();
         } finally {
-            if (conn != null){
+            if (conn != null) {
                 try {
                     conn.close();
                 } catch (SQLException e) {
@@ -103,13 +100,13 @@ public class UserRepository implements Repository<UserDTO> {
             conn = DriverManager.getConnection("jdbc:sqlserver://10.108.146.2;user=Whist;" +
                     "password=Whist123;databaseName=CardGameEngine_DB");
             UserUpdateSpecification userUpdateSpec = new UserUpdateSpecification(entity);
-            userUpdateSpec.ToSqlPreparedStatement(conn).executeQuery() ;
+            userUpdateSpec.ToSqlPreparedStatement(conn).executeQuery();
             conn.close();
             return true;
         } catch (SQLException e) {
             e.printStackTrace();
         } finally {
-            if (conn != null){
+            if (conn != null) {
                 try {
                     conn.close();
                 } catch (SQLException e) {
@@ -127,13 +124,13 @@ public class UserRepository implements Repository<UserDTO> {
             conn = DriverManager.getConnection("jdbc:sqlserver://10.108.146.2;user=Whist;" +
                     "password=Whist123;databaseName=CardGameEngine_DB");
             UserRemoveSpecification userRemoveSpec = new UserRemoveSpecification(entity);
-            userRemoveSpec.ToSqlPreparedStatement(conn).executeQuery() ;
+            userRemoveSpec.ToSqlPreparedStatement(conn).executeQuery();
             conn.close();
             return true;
         } catch (SQLException e) {
             e.printStackTrace();
         } finally {
-            if (conn != null){
+            if (conn != null) {
                 try {
                     conn.close();
                 } catch (SQLException e) {
@@ -152,5 +149,34 @@ public class UserRepository implements Repository<UserDTO> {
     @Override
     public Collection<UserDTO> query(Specification specification) {
         return null;
+    }
+
+    public Collection<UserDTO> getUserByUsernameOrEmail(String usernameOrEmail) {
+        Connection conn = null;
+        Collection<UserDTO> users  = null;
+
+        try {
+            conn = DriverManager.getConnection("jdbc:sqlserver://10.108.146.2;user=Whist;" +
+                    "password=Whist123;databaseName=CardGameEngine_DB");
+            UserByUsernameOrEmailSpecification userByNameOrEmail = new UserByUsernameOrEmailSpecification(usernameOrEmail);
+            ResultSet rs = userByNameOrEmail.ToSqlPreparedStatement(conn).executeQuery();
+
+            while (rs.next()) {
+                users.add(new UserDTO(rs.getInt("id"), rs.getString("username"), rs.getString("hashedPassword"), rs.getBytes( "salt")));
+            }
+
+            conn.close();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } finally {
+            if (conn != null) {
+                try {
+                    conn.close();
+                } catch (SQLException e) {
+                    e.printStackTrace();
+                }
+            }
+        }
+        return users;
     }
 }
