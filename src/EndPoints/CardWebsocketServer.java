@@ -9,6 +9,7 @@ package EndPoints;
 import DTOs.UserDTO;
 import Handlers.DataHandler;
 import Handlers.MessageHandler;
+import Handlers.Service.StandardUserService;
 import Logging.LogType;
 import Logging.Loggable;
 import Repositories.UserRepository;
@@ -58,18 +59,6 @@ public class CardWebsocketServer extends ServerEndPoint<Session, URI> implements
         session.getAsyncRemote().sendObject(jsonObj);
     }
 
-    private Date stringToDate(String sDate) {
-        try {
-            SimpleDateFormat sdf1 = new SimpleDateFormat("dd-mm-yyyy");
-            java.util.Date date = sdf1.parse(sDate);
-            java.sql.Date sqlStartDate = new java.sql.Date(date.getTime());
-            return sqlStartDate;
-        } catch (ParseException e) {
-            e.printStackTrace();
-        }
-        return null;
-    }
-
     @Override
     public void sendMessage(JsonObject jsonObject) {
     }
@@ -100,11 +89,49 @@ public class CardWebsocketServer extends ServerEndPoint<Session, URI> implements
 
     @Override
     public JsonObject handleMessage(String message) {
-        JsonObject jsonobj = decodeMessage(message);
-        PacketType type = PacketType.values()[jsonobj.getJsonObject("array").getInt("type")];
-        JsonObject content = jsonobj.getJsonObject("array").getJsonObject("content");
+        JsonObject jsonObj = decodeMessage(message);
+        PacketType type = PacketType.values()[jsonObj.getJsonObject("array").getInt("type")];
+        JsonObject content = jsonObj.getJsonObject("array").getJsonObject("content");
         Map claim = new HashMap();
 
+        StandardUserService uService = new StandardUserService();
+
+        switch (type) {
+            case CreateUser:
+                try {
+                    JsonArray jsonArray = content.getJsonArray("users");
+                    claim = uService.createUser(jsonArray, PacketType.CreateUser);
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+                break;
+            case UpdateUser:
+                try {
+                    JsonArray jsonArray = content.getJsonArray("users");
+                    claim = uService.updateUser(jsonArray, PacketType.UpdateUser);
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+                break;
+            case DeleteUser:
+                try {
+
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+                break;
+            case UserResetPassword:
+                try {
+
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+                break;
+        }
+
+        return encodeMessage(claim);
+
+        /*
         switch (type) {
             case CreateUser:
                 try {
@@ -144,7 +171,7 @@ public class CardWebsocketServer extends ServerEndPoint<Session, URI> implements
                         claim.put("error", ErrorType.userExists);
                         claim.put("errorMessage", "Bruger eksistere allerede");
                     }
-                } catch (NoSuchAlgorithmException e) {
+                } catch (Exception e) {
                     e.printStackTrace();
                 }
                 break;
@@ -157,7 +184,7 @@ public class CardWebsocketServer extends ServerEndPoint<Session, URI> implements
             default:
                 break;
         }
-        return encodeMessage(claim);
+        return encodeMessage(claim);*/
     }
 
     @Override
