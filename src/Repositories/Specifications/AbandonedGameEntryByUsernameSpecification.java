@@ -6,6 +6,7 @@ import java.sql.SQLException;
 
 public class AbandonedGameEntryByUsernameSpecification implements SqlStatementSpecification {
     String username;
+
     public AbandonedGameEntryByUsernameSpecification(String username){this.username = username;};
 
     @Override

@@ -40,7 +40,7 @@ public class UserDTO {
     }
 
     //for user requests, signing up etc.
-    public UserDTO(String fName, String lName, String email, String username, String password, Date birthdate) throws NoSuchAlgorithmException{
+    public UserDTO(String fName, String lName, String email, String username, String password, Date birthdate) {
         this.firstName = fName;
         this.lastName = lName;
         this.email = email;
@@ -100,26 +100,8 @@ public class UserDTO {
         return password;
     }
 
-    public void setPassword(String password) throws NoSuchAlgorithmException {
-        try {
-            byte[] newSalt = new byte[128];
-            new Random().nextBytes(newSalt);
-
-            MessageDigest md = MessageDigest.getInstance("SHA-512");
-            md.update(newSalt);
-            byte[] passwordBytes = md.digest(password.getBytes(StandardCharsets.UTF_8));
-            StringBuilder sb = new StringBuilder();
-
-            for(int i=0; i< passwordBytes.length ;i++){
-                sb.append(Integer.toString((passwordBytes[i] & 0xff) + 0x100, 16).substring(1));
-            }
-
-            this.password = sb.toString();
-            setSalt(newSalt);
-        }
-        catch (NoSuchAlgorithmException e){
-            e.printStackTrace();
-        }
+    public void setPassword(String password) {
+        this.password = password;
     }
 
     public byte[] getSalt() {
@@ -140,5 +122,27 @@ public class UserDTO {
 
     public Date getCreated() {
         return created;
+    }
+
+    public void hashPassword() throws NoSuchAlgorithmException{
+        try {
+            byte[] newSalt = new byte[128];
+            new Random().nextBytes(newSalt);
+
+            MessageDigest md = MessageDigest.getInstance("SHA-512");
+            md.update(newSalt);
+            byte[] passwordBytes = md.digest(password.getBytes(StandardCharsets.UTF_8));
+            StringBuilder sb = new StringBuilder();
+
+            for(int i=0; i< passwordBytes.length ;i++){
+                sb.append(Integer.toString((passwordBytes[i] & 0xff) + 0x100, 16).substring(1));
+            }
+
+            this.password = sb.toString();
+            setSalt(newSalt);
+        }
+        catch (NoSuchAlgorithmException e){
+            e.printStackTrace();
+        }
     }
 }
