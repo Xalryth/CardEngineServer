@@ -126,7 +126,7 @@ public class UserDTO {
 
     public void hashPassword() throws NoSuchAlgorithmException{
         try {
-            byte[] newSalt = new byte[128];
+            byte[] newSalt = (salt != null) ? salt : new byte[128];
             new Random().nextBytes(newSalt);
 
             MessageDigest md = MessageDigest.getInstance("SHA-512");
