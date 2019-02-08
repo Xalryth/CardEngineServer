@@ -171,7 +171,7 @@ public class WhistGamemode extends Game implements TurnManager, Deckable<RankedC
         //set players
         Vector<Player> players = new Vector<>();
         for (int i = 0; i< users.size(); i++){
-            Player tempPlayer = new Player(users.get(i));
+            Player tempPlayer = new Player(users.get(i).getName());
             players.add(tempPlayer);
             turnQueue.add(tempPlayer);
         }
@@ -181,7 +181,6 @@ public class WhistGamemode extends Game implements TurnManager, Deckable<RankedC
         setGameStarted(true);
         setPlayerTurnOrder();
         dealHands();
-        return turnQueue.get(0);
     }
 
     /**A method to call the type of game for this round

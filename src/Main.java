@@ -45,8 +45,10 @@ public class Main<ststic> {
 
         //start game round and get first player
         System.out.println("starting game");
-        Player player = game.startGame(players);
-        //sort hand
+        game.startGame(players);
+        Player player = game.getCurrentPlayer();
+
+                //sort hand
 
         //call round ----------
         //display players cards
