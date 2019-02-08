@@ -1,6 +1,10 @@
 package CardValues;
 
 import Cards.Card;
+import Cards.RankedCard;
+import Cards.StandardPlayingCardRank;
+
+import java.util.Vector;
 
 /*
  *   @Author Christoffer Pietras
@@ -12,8 +16,8 @@ public interface CardValueComparable<K extends Card, V> extends CardValuable<K, 
     K getGreaterCard(K card1, K card2);
     K getLowestCard();
     K getHighestCard();
-    K[] getCardsBelow(K card);
-    K[] getCardsBelow(V value);
-    K[] getCardsAbove(K card);
-    K[] getCardsAbove(V value);
+    Vector<RankedCard<StandardPlayingCardRank>> getCardsBelow(K card);
+    Vector<RankedCard<StandardPlayingCardRank>> getCardsBelow(V value);
+    Vector<RankedCard<StandardPlayingCardRank>> getCardsAbove(K card);
+    Vector<RankedCard<StandardPlayingCardRank>> getCardsAbove(V value);
 }

@@ -5,6 +5,12 @@ package Decks;
  *   @Date 29-01-2019
  */
 
+import Cards.Card;
+import Cards.RankedCard;
+import Cards.StandardPlayingCardRank;
+
+import java.util.Vector;
+
 //The class for the hand
 public class Hand extends Deck {
 
@@ -30,6 +36,7 @@ public class Hand extends Deck {
 
     //Method to sort the hand uses CardSortType Enum
     public void sortHand(CardSortType sortType){
+        Vector<RankedCard<StandardPlayingCardRank>> cards = getCards();
 
     }
 }
