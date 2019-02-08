@@ -22,7 +22,7 @@ public abstract class Game {
         this.name = name;
     }
 
-    public abstract Player startGame(Vector<User> users);
+    public abstract void startGame(Vector<User> users);
 
     public abstract void endGame();
 

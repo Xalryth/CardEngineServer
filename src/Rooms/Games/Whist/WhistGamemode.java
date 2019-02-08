@@ -165,7 +165,7 @@ public class WhistGamemode extends Game implements TurnManager, Deckable<RankedC
     }
 
     @Override
-    public Player startGame(Vector<User> users) {
+    public void startGame(Vector<User> users) {
         //Make sure all spots are filled
         if (!(users.size() == 4)) throw new ArrayStoreException("Player count dont match the required amount of 4 players");
         //set players
@@ -181,7 +181,6 @@ public class WhistGamemode extends Game implements TurnManager, Deckable<RankedC
         setGameStarted(true);
         setPlayerTurnOrder();
         dealHands();
-        return turnQueue.get(0);
     }
 
     /**A method to call the type of game for this round
