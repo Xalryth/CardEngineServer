@@ -131,11 +131,38 @@ public class StandardUserService implements UserService {
     public Map login(JsonArray jsonArray, PacketType packetType) {
         Map claim = new HashMap();
         UserRepository userRepository = new UserRepository();
-        //List<UserDTO> users = jsonObjectToUserDTO(jsonArray);
-        //List<JsonObjectBuilder> loginUser = new Vector<>();
+        List<UserDTO> users = jsonObjectToUserDTO(jsonArray);
+        List<JsonObjectBuilder> loginUser = new Vector<>();
 
-        Collection<UserDTO> users = userRepository.getUserByUsernameOrEmail("username");
-        //TODO
+        UserDTO usersDB = userRepository.getUserByUsernameOrEmail(users.get(0).getUsername(), users.get(0).getEmail());
+
+        if (usersDB != null) {
+            try {
+                users.get(0).hashPassword();
+                if (users.get(0).getPassword() == usersDB.getPassword()) {
+                    JsonObjectBuilder jsonBuilder = Json.createObjectBuilder();
+                    jsonBuilder.add("userId", usersDB.getId());
+                    jsonBuilder.add("fName", usersDB.getFirstName());
+                    jsonBuilder.add("lName", usersDB.getLastName());
+                    jsonBuilder.add("username", usersDB.getUsername());
+                    jsonBuilder.add("email", usersDB.getEmail());
+                    loginUser.add(jsonBuilder);
+                    claim.put("type", packetType);
+                    claim.put("content", loginUser);
+                } else {
+                    claim.put("type", PacketType.Error);
+                    claim.put("error", ErrorType.userWrongPassword);
+                    claim.put("errorMessage", "Wrong password");
+                }
+            } catch (NoSuchAlgorithmException e) {
+                e.printStackTrace();
+            }
+        } else {
+            claim.put("type", PacketType.Error);
+            claim.put("error", ErrorType.userNotExists);
+            claim.put("errorMessage", "User does not exists");
+        }
+        return claim;
     }
 
     private List<UserDTO> jsonObjectToUserDTO(JsonArray jsonArray){
