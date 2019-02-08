@@ -124,10 +124,14 @@ public class UserDTO {
         return created;
     }
 
+    //Hashes the user password with the salt
     public void hashPassword() throws NoSuchAlgorithmException{
         try {
-            byte[] newSalt = (salt != null) ? salt : new byte[128];
-            new Random().nextBytes(newSalt);
+            byte[] newSalt = (salt == null) ? new byte[128] : salt;
+
+            if(salt == null){
+                new Random().nextBytes(newSalt);
+            }
 
             MessageDigest md = MessageDigest.getInstance("SHA-512");
             md.update(newSalt);
