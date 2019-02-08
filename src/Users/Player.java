@@ -7,16 +7,14 @@ import Decks.Hand;
  *   @Date 30-01-2019
  */
 
-public class Player extends User {
+public class Player {
         private Hand hand;
         private short score;
 
-        public Player(User user){
-            super(user.getUsername());
+        public Player(){
         }
 
-        public Player(User user, Hand hand){
-            super(user.getUsername());
+        public Player(Hand hand){
             this.hand = hand;
         }
 

@@ -11,7 +11,6 @@ import Handlers.MessageHandler;
 import Handlers.Service.StandardUserService;
 import Logging.LogType;
 import Logging.Loggable;
-import Users.User;
 
 import javax.json.*;
 import javax.websocket.*;
@@ -142,6 +141,16 @@ public class CardWebsocketServer extends ServerEndPoint<Session, URI> implements
                 } catch (Exception e) {
                     e.printStackTrace();
                 }
+                break;
+            case CreateLobby:
+                try {
+                    JsonArray jsonArray = content.getJsonArray("users");
+                    //claim = uService.createLobby(jsonArray, PacketType.CreateLobby);
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+                break;
+            default:
                 break;
         }
         return encodeMessage(claim);

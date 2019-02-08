@@ -1,7 +1,6 @@
 package Rooms.Games.Whist.Variations;
 
 import Rooms.Games.Whist.WhistGamemode;
-import Users.User;
 
 import java.util.Vector;
 
