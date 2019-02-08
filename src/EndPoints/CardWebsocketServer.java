@@ -11,6 +11,7 @@ import Handlers.MessageHandler;
 import Handlers.Service.StandardUserService;
 import Logging.LogType;
 import Logging.Loggable;
+import Users.User;
 
 import javax.json.*;
 import javax.websocket.*;
@@ -37,7 +38,7 @@ public class CardWebsocketServer extends ServerEndPoint<Session, URI> implements
     @Override
     @OnOpen
     public void onOpen(Session session) {
-        connections.add(session);
+        connections.put(session, null);
     }
 
     @Override
@@ -136,8 +137,8 @@ public class CardWebsocketServer extends ServerEndPoint<Session, URI> implements
                 try {
                     JsonArray jsonArray = content.getJsonArray("users");
                     claim = uService.login(jsonArray, PacketType.UserLogin);
-                    session.getUserProperties().put("username", claim.get("username"));
-                    connections.add(session);
+                    if(connections.get(session) == null)
+                        connections.get(session).setName(claim.get("username").toString());
                 } catch (Exception e) {
                     e.printStackTrace();
                 }
