@@ -45,7 +45,7 @@ public class UserDTO {
         this.lastName = lName;
         this.email = email;
         this.username = username;
-        setPassword(password);
+        this.password = password;
         this.birthdate = birthdate;
     }
 
