@@ -5,18 +5,17 @@
  */
 package EndPoints;
 
-import org.glassfish.grizzly.http.server.Session;
 
-import java.util.Collections;
-import java.util.HashSet;
-import java.util.Set;
+import Users.User;
+
+import java.util.*;
 
 public abstract class ServerEndPoint<T, S> {
     private int count;
-    protected Set<T> connections;
+    protected Map<T, User> connections;
 
     public ServerEndPoint() {
-        connections = new HashSet<T>();
+        connections = new HashMap<>();
     }
 
     public abstract void start(S param);

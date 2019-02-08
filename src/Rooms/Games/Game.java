@@ -1,6 +1,7 @@
 package Rooms.Games;
 
 import Users.Player;
+import Users.User;
 
 import java.util.Vector;
 

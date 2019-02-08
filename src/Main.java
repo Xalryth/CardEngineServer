@@ -5,6 +5,7 @@ import Decks.Hand;
 import Repositories.UserRepository;
 import Rooms.Games.Whist.WhistGamemode;
 import Users.Player;
+import Users.User;
 
 import java.io.BufferedReader;
 import java.io.IOException;
