@@ -1,7 +1,4 @@
-import Cards.RankedCard;
-import Cards.StandardPlayingCardRank;
 import DTOs.UserDTO;
-import Decks.Hand;
 import Repositories.UserRepository;
 import Rooms.Games.Whist.WhistGamemode;
 import Users.Player;
@@ -16,8 +13,8 @@ import java.util.Vector;
 
 public class Main<ststic> {
 
-    public static void main(String[] args) throws IOException {
 
+    public static void main(String[] args) throws IOException {
 
         BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
         System.out.println("select method");
@@ -35,8 +32,7 @@ public class Main<ststic> {
             e.printStackTrace();
         }
     }
-    public static void playGame() throws IOException {
-        BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+    public static void playGame(){
         //setup game
         WhistGamemode game = new WhistGamemode("Test");
 
@@ -51,16 +47,11 @@ public class Main<ststic> {
         System.out.println("starting game");
         game.startGame(players);
         Player player = game.getCurrentPlayer();
-        //sort hand
+
+                //sort hand
 
         //call round ----------
         //display players cards
         StringBuilder sb = new StringBuilder();
-        Hand hand = player.getHand();
-        for (int i = 0; i < hand.getCards().size(); i++){
-            sb.append(hand.getCards().get(i).getIdentifyer().toString() +
-                    hand.getCards().get(i).getRank().toString() + ",");
-        }
-        br.readLine();
     }
 }
