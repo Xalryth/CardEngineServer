@@ -12,11 +12,11 @@ public class Player extends User {
         private short score;
 
         public Player(User user){
-            super(user.getname());
+            super(user.getUsername());
         }
 
         public Player(User user, Hand hand){
-            super(user.getname());
+            super(user.getUsername());
             this.hand = hand;
         }
 

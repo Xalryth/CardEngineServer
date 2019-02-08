@@ -8,16 +8,17 @@ import java.sql.PreparedStatement;
 import java.sql.SQLException;
 
 public class UserByUsernameOrEmailSpecification implements SqlStatementSpecification {
-    String usernameOrEmail;
+    String username;
+    String email;
 
-    public UserByUsernameOrEmailSpecification(String usernameOrEmail){ this.usernameOrEmail = usernameOrEmail; }
+    public UserByUsernameOrEmailSpecification(String username, String email){ this.username = username; this.email = email; }
 
     @Override
     public PreparedStatement ToSqlPreparedStatement(Connection con) {
         try {
             PreparedStatement statement = con.prepareStatement("SELECT * FROM [User] WHERE Username = ? OR Email = ?; ");
-            statement.setString(1, usernameOrEmail);
-            statement.setString(2, usernameOrEmail);
+            statement.setString(1, username);
+            statement.setString(2, email);
             return statement;
         } catch (SQLException up){
             //throw up;

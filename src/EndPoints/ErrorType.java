@@ -6,8 +6,8 @@ package EndPoints;
  */
 public enum ErrorType {
     userExists(0),
-    userLoginError(1);
-
+    userWrongPassword(1),
+    userNotExists(2);
 
     private int id;
 

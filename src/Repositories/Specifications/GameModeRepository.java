@@ -1,7 +1,7 @@
-package Repositories;
+package Repositories.Specifications;
 
 import DTOs.UserDTO;
-import Repositories.Specifications.Specification;
+import Repositories.Repository;
 import Repositories.Specifications.User.*;
 
 import java.sql.Connection;
@@ -10,7 +10,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.Collection;
 
-public class UserRepository implements Repository<UserDTO> {
+public class GameModeRepository implements Repository<UserDTO> {
 
     @Override
     public Collection<UserDTO> getAll() {

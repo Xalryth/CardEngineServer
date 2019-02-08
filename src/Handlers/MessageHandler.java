@@ -6,7 +6,8 @@
 package Handlers;
 
 import javax.json.JsonObject;
+import javax.websocket.Session;
 
 public interface MessageHandler {
-    JsonObject handleMessage(String message);
+    JsonObject handleMessage(String message, Session session);
 }

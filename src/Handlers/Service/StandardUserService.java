@@ -15,6 +15,7 @@ import javax.json.Json;
 import javax.json.JsonArray;
 import javax.json.JsonObject;
 import javax.json.JsonObjectBuilder;
+import java.security.NoSuchAlgorithmException;
 import java.sql.Date;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -37,7 +38,6 @@ public class StandardUserService implements UserService {
                 jsonBuilder.add("lName", user.getLastName());
                 jsonBuilder.add("email", user.getEmail());
                 jsonBuilder.add("username", user.getUsername());
-                jsonBuilder.add("password", user.getPassword());
                 jsonBuilder.add("birthday", user.getBirthdate().toString());
                 createdUser.add(jsonBuilder);
             }
@@ -67,13 +67,12 @@ public class StandardUserService implements UserService {
                 jsonBuilder.add("lName", user.getLastName());
                 jsonBuilder.add("email", user.getEmail());
                 jsonBuilder.add("username", user.getUsername());
-                jsonBuilder.add("password", user.getPassword());
                 jsonBuilder.add("birthday", user.getBirthdate().toString());
                 updatedUser.add(jsonBuilder);
             }
         }
 
-        if (updatedUser.isEmpty()){
+        if (updatedUser.isEmpty()) {
             claim.put("type", PacketType.Error);
             claim.put("error", ErrorType.userExists);
             claim.put("errorMessage", "Username already  exists");
@@ -97,14 +96,12 @@ public class StandardUserService implements UserService {
                 jsonBuilder.add("userId", user.getId());
                 jsonBuilder.add("fName", user.getFirstName());
                 jsonBuilder.add("lName", user.getLastName());
-                jsonBuilder.add("email", user.getEmail());
                 jsonBuilder.add("username", user.getUsername());
-                jsonBuilder.add("password", user.getPassword());
-                jsonBuilder.add("birthday", user.getBirthdate().toString());
+                jsonBuilder.add("email", user.getEmail());
                 deletedUser.add(jsonBuilder);
             }
         }
-        if (deletedUser.isEmpty()){
+        if (deletedUser.isEmpty()) {
             claim.put("type", PacketType.Error);
             claim.put("error", ErrorType.userExists);
             claim.put("errorMessage", "user does not exist");
@@ -128,16 +125,44 @@ public class StandardUserService implements UserService {
 
     @Override
     public Map login(JsonArray jsonArray, PacketType packetType) {
+
         Map claim = new HashMap();
         UserRepository userRepository = new UserRepository();
-        //List<UserDTO> users = jsonObjectToUserDTO(jsonArray);
-        //List<JsonObjectBuilder> loginUser = new Vector<>();
+        List<UserDTO> users = jsonObjectToUserDTO(jsonArray);
+        List<JsonObjectBuilder> loginUser = new Vector<>();
 
-        Collection<UserDTO> users = userRepository.getUserByUsernameOrEmail("username");
-        //TODO
+        UserDTO usersDB = userRepository.getUserByUsernameOrEmail(users.get(0).getUsername(), users.get(0).getEmail());
+
+        if (usersDB != null) {
+            try {
+                users.get(0).hashPassword();
+                if (users.get(0).getPassword() == usersDB.getPassword()) {
+                    JsonObjectBuilder jsonBuilder = Json.createObjectBuilder();
+                    jsonBuilder.add("userId", usersDB.getId());
+                    jsonBuilder.add("fName", usersDB.getFirstName());
+                    jsonBuilder.add("lName", usersDB.getLastName());
+                    jsonBuilder.add("username", usersDB.getUsername());
+                    jsonBuilder.add("email", usersDB.getEmail());
+                    loginUser.add(jsonBuilder);
+                    claim.put("type", packetType);
+                    claim.put("content", loginUser);
+                } else {
+                    claim.put("type", PacketType.Error);
+                    claim.put("error", ErrorType.userWrongPassword);
+                    claim.put("errorMessage", "Wrong password");
+                }
+            } catch (NoSuchAlgorithmException e) {
+                e.printStackTrace();
+            }
+        } else {
+            claim.put("type", PacketType.Error);
+            claim.put("error", ErrorType.userNotExists);
+            claim.put("errorMessage", "User does not exists");
+        }
+        return claim;
     }
 
-    private List<UserDTO> jsonObjectToUserDTO(JsonArray jsonArray){
+    private List<UserDTO> jsonObjectToUserDTO(JsonArray jsonArray) {
         List<UserDTO> users = new Vector<>();
 
         jsonArray.forEach(item -> {

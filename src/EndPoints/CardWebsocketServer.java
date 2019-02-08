@@ -11,6 +11,7 @@ import Handlers.MessageHandler;
 import Handlers.Service.StandardUserService;
 import Logging.LogType;
 import Logging.Loggable;
+import Users.User;
 
 import javax.json.*;
 import javax.websocket.*;
@@ -49,7 +50,7 @@ public class CardWebsocketServer extends ServerEndPoint<Session, URI> implements
     @Override
     @OnMessage
     public void onMessage(String message, Session session) {
-        JsonObject jsonObj = handleMessage(message);
+        JsonObject jsonObj = handleMessage(message, session);
         session.getAsyncRemote().sendObject(jsonObj);
     }
 
@@ -92,7 +93,7 @@ public class CardWebsocketServer extends ServerEndPoint<Session, URI> implements
      * @since 07-02-2019
      */
     @Override
-    public JsonObject handleMessage(String message) {
+    public JsonObject handleMessage(String message, Session session) {
         JsonObject jsonObj = decodeMessage(message);
         PacketType type = PacketType.values()[jsonObj.getJsonObject("array").getInt("type")];
         JsonObject content = jsonObj.getJsonObject("array").getJsonObject("content");
@@ -136,68 +137,14 @@ public class CardWebsocketServer extends ServerEndPoint<Session, URI> implements
                 try {
                     JsonArray jsonArray = content.getJsonArray("users");
                     claim = uService.login(jsonArray, PacketType.UserLogin);
+                    session.getUserProperties().put("username", claim.get("username"));
+                    connections.add(session);
                 } catch (Exception e) {
                     e.printStackTrace();
                 }
                 break;
         }
-
         return encodeMessage(claim);
-
-        /*
-        switch (type) {
-            case CreateUser:
-                try {
-                    UserRepository userRepository = new UserRepository();
-                    JsonArray value = content.getJsonArray("users");
-                    List<UserDTO> users = new Vector<>();
-
-                    value.forEach(item -> {
-                        JsonObject obj = (JsonObject) item;
-                        String fName = obj.getString("fName");
-                        String lName = obj.getString("lName");
-                        String email = obj.getString("email");
-                        String username = obj.getString("username");
-                        String password = obj.getString("password");
-                        String sBirthdate = obj.getString("birthday");
-                        Date birthdate = stringToDate(sBirthdate);
-
-                        users.add(new UserDTO(fName, lName, email, username, password, (java.sql.Date) birthdate));
-                    });
-                    if (userRepository.add(users)) {
-
-                        claim.put("type", type);
-
-                        for (UserDTO user : users) {
-                            JsonObjectBuilder b = Json.createObjectBuilder();
-                            b.add("fName", user.getFirstName());
-                            b.add("lName", user.getLastName());
-                            b.add("email", user.getEmail());
-                            b.add("username", user.getUsername());
-                            b.add("password", user.getPassword());
-                            b.add("birthday", user.getBirthdate().toString());
-                        }
-
-                        claim.put("content", users);
-                    } else {
-                        claim.put("type", PacketType.Error);
-                        claim.put("error", ErrorType.userExists);
-                        claim.put("errorMessage", "Bruger eksistere allerede");
-                    }
-                } catch (Exception e) {
-                    e.printStackTrace();
-                }
-                break;
-            case UpdateUser:
-                UserRepository userRepository = new UserRepository();
-                JsonArray value = content.getJsonArray("users");
-                List<UserDTO> users = new Vector<>();
-
-                break;
-            default:
-                break;
-        }
-        return encodeMessage(claim);*/
     }
 
     @Override
@@ -207,4 +154,5 @@ public class CardWebsocketServer extends ServerEndPoint<Session, URI> implements
     @Override
     public void log(LogType logType) {
     }
+
 }

@@ -10,7 +10,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.Collection;
 
-public class UserRepository implements Repository<UserDTO> {
+public class GameRepository implements Repository<UserDTO> {
 
     @Override
     public Collection<UserDTO> getAll() {
