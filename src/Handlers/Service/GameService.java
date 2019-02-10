@@ -7,9 +7,12 @@
 package Handlers.Service;
 
 import EndPoints.PacketType;
+import Users.User;
 
 import javax.json.JsonArray;
+import javax.websocket.Session;
 import java.util.Map;
 
-interface LobbyService {
+interface GameService {
+    Map createLobby(JsonArray jsonArray, PacketType packetType);
 }

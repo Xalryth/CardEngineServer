@@ -10,6 +10,11 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.Collection;
 
+/*
+    Christoffer Pietras
+   User Repository difrence methodes to call specification there create, update, delete or return a list of objects from DB
+ */
+
 public class UserRepository implements Repository<UserDTO> {
 
     @Override

@@ -21,6 +21,11 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.*;
 
+/*
+    Christoffer Pietras
+    Handle difrence user request like create, update, delete and login
+ */
+
 public class StandardUserService implements UserService {
 
     @Override

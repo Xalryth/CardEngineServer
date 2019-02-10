@@ -1,8 +1,7 @@
 package EndPoints;
 /**
  * @author Christoffer Pietras
- * @version 1
- * @since 07-02-2019
+   Difrence packget we can receivce from user
  */
 public enum PacketType {
     CreateUser(0),

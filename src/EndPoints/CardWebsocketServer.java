@@ -8,8 +8,8 @@ package EndPoints;
 
 import Handlers.DataHandler;
 import Handlers.MessageHandler;
+import Handlers.Service.StandardGameService;
 import Handlers.Service.StandardUserService;
-import Logging.LogType;
 import Logging.Loggable;
 import Users.User;
 
@@ -21,7 +21,9 @@ import java.net.URI;
 import java.util.*;
 
 @ServerEndpoint("/ws")
-public class CardWebsocketServer extends ServerEndPoint<Session, URI> implements Loggable, WebsocketEndPoint<Session>, MessageHandler, DataHandler<JsonObject> {
+public class CardWebsocketServer extends ServerEndPoint<Session, URI> implements WebsocketEndPoint<Session>, MessageHandler, DataHandler<JsonObject> {
+    private Loggable logger;
+
     public CardWebsocketServer(URI uri) {
     }
 
@@ -47,6 +49,12 @@ public class CardWebsocketServer extends ServerEndPoint<Session, URI> implements
         connections.remove(session);
     }
 
+
+    /*
+    Christoffer Pietras
+    Message from client to server.
+    Send message and session to handleMessage
+     */
     @Override
     @OnMessage
     public void onMessage(String message, Session session) {
@@ -60,8 +68,7 @@ public class CardWebsocketServer extends ServerEndPoint<Session, URI> implements
 
     /**
      * @author Christoffer Pietras
-     * @version 1
-     * @since 07-02-2019
+       Json string into a json Object and return
      */
     @Override
     public JsonObject decodeMessage(String message) {
@@ -89,8 +96,8 @@ public class CardWebsocketServer extends ServerEndPoint<Session, URI> implements
 
     /**
      * @author Christoffer Pietras
-     * @version 1
-     * @since 07-02-2019
+       Get type from jsonobject and array with content
+       Switch case to see what type matches
      */
     @Override
     public JsonObject handleMessage(String message, Session session) {
@@ -100,6 +107,7 @@ public class CardWebsocketServer extends ServerEndPoint<Session, URI> implements
         Map claim = new HashMap();
 
         StandardUserService uService = new StandardUserService();
+        StandardGameService gService = new StandardGameService();
 
         switch (type) {
             case CreateUser:
@@ -137,8 +145,7 @@ public class CardWebsocketServer extends ServerEndPoint<Session, URI> implements
                 try {
                     JsonArray jsonArray = content.getJsonArray("users");
                     claim = uService.login(jsonArray, PacketType.UserLogin);
-                    if(connections.get(session) == null)
-                        connections.get(session).setName(claim.get("username").toString());
+                    connections.put(session, new User(claim.get("username").toString()));
                 } catch (Exception e) {
                     e.printStackTrace();
                 }
@@ -146,6 +153,10 @@ public class CardWebsocketServer extends ServerEndPoint<Session, URI> implements
             case CreateLobby:
                 try {
                     JsonArray jsonArray = content.getJsonArray("users");
+                  //Todo lobby
+                    //  claim = gService.createLobby(jsonArray, PacketType.UserLogin, );
+
+
                     //claim = uService.createLobby(jsonArray, PacketType.CreateLobby);
                 } catch (Exception e) {
                     e.printStackTrace();
@@ -156,13 +167,4 @@ public class CardWebsocketServer extends ServerEndPoint<Session, URI> implements
         }
         return encodeMessage(claim);
     }
-
-    @Override
-    public void log() {
-    }
-
-    @Override
-    public void log(LogType logType) {
-    }
-
 }

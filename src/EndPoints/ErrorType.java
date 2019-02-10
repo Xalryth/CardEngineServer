@@ -1,8 +1,7 @@
 package EndPoints;
 /**
  * @author Christoffer Pietras
- * @version 1
- * @since 07-02-2019
+   Difrence error type there can come
  */
 public enum ErrorType {
     userExists(0),

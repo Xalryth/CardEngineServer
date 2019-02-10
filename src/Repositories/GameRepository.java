@@ -5,6 +5,12 @@ import Repositories.Specifications.Specification;
 
 import java.util.Collection;
 
+/*
+   Christoffer Pietras
+   Game Repository difrence methodes to call specification there create, update, delete or return a list of objects from DB
+ */
+
+
 public class GameRepository implements Repository<UserDTO> {
 
     @Override
